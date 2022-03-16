@@ -4,10 +4,10 @@
 
 <script>
 export default {
-
+name: 'registration'
 }
 </script>
-
+ 
 <style>
 
 </style>
