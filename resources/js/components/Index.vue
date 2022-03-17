@@ -2,6 +2,7 @@
   <div>
       <router-link :to="{name: 'get.index'}">Get</router-link>
       <router-link :to="{name: 'user.login'}">Login</router-link>
+      <router-link :to="{name: 'user.personal'}">Personal</router-link>
       <router-link :to="{name: 'user.registration'}">registration</router-link>
       <a @click.prevent="logout" href="">Logout</a>
       <router-view></router-view>
@@ -15,7 +16,7 @@ export default {
         logout(){
             axios.get('/logout')
             .then(res => {
-                console.log(res);
+                localStorage.removeItem('x_xsrf_token');
                 this.$router.push({name: 'user.login'})
             })
         }
