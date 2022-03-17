@@ -5381,7 +5381,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Index',
+  data: function data() {
+    return {
+      token: null
+    };
+  },
+  mounted: function mounted() {
+    this.getToken();
+  },
+  updated: function updated() {
+    this.getToken();
+  },
   methods: {
+    getToken: function getToken() {
+      this.token = localStorage.getItem('x_xsrf_token');
+    },
     logout: function logout() {
       var _this = this;
 
@@ -28088,31 +28102,39 @@ var render = function () {
         _vm._v("Get"),
       ]),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "user.login" } } }, [
-        _vm._v("Login"),
-      ]),
+      !_vm.token
+        ? _c("router-link", { attrs: { to: { name: "user.login" } } }, [
+            _vm._v("Login"),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "user.personal" } } }, [
-        _vm._v("Personal"),
-      ]),
+      _vm.token
+        ? _c("router-link", { attrs: { to: { name: "user.personal" } } }, [
+            _vm._v("Personal"),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "user.registration" } } }, [
-        _vm._v("registration"),
-      ]),
+      !_vm.token
+        ? _c("router-link", { attrs: { to: { name: "user.registration" } } }, [
+            _vm._v("registration"),
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "a",
-        {
-          attrs: { href: "" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.logout.apply(null, arguments)
+      _vm.token
+        ? _c(
+            "a",
+            {
+              attrs: { href: "" },
+              on: {
+                click: function ($event) {
+                  $event.preventDefault()
+                  return _vm.logout.apply(null, arguments)
+                },
+              },
             },
-          },
-        },
-        [_vm._v("Logout")]
-      ),
+            [_vm._v("Logout")]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("router-view"),
     ],
