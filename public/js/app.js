@@ -5431,6 +5431,9 @@ new vue__WEBPACK_IMPORTED_MODULE_2__["default"]({
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+var _require = __webpack_require__(/*! ./router */ "./resources/js/router.js"),
+    router = _require["default"];
+
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
@@ -5446,6 +5449,19 @@ try {
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.axios.defaults.withCredentials = true;
+window.axios.interceptors.response.use({}, function (err) {
+  if (err.response.status === 401 || err.response.status === 419) {
+    var token = localStorage.getItem("x_xsrf_token");
+
+    if (token) {
+      localStorage.removeItem("x_xsrf_token");
+    }
+
+    router.push({
+      name: "user.login"
+    });
+  }
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -5478,7 +5494,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: "history",
   routes: [{
     path: "/get",
@@ -5505,7 +5521,29 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
     },
     name: "user.personal"
   }]
-}));
+});
+router.beforeEach(function (to, from, next) {
+  var token = localStorage.getItem("x_xsrf_token");
+
+  if (!token) {
+    if (to.name === "user.login" || to.name === "user.registration") {
+      return next();
+    } else {
+      return next({
+        name: "user.login"
+      });
+    }
+  }
+
+  if (to.name === "user.login" || to.name === "user.registration") {
+    return next({
+      name: "user.personal"
+    });
+  }
+
+  next();
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),
 
