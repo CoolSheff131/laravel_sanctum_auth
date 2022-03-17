@@ -15,8 +15,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'registration'
+  name: 'registration',
+  data: function data() {
+    return {
+      name: null,
+      email: null,
+      password: null,
+      password_confirmation: null
+    };
+  },
+  methods: {
+    register: function register() {
+      var _this = this;
+
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/register', {
+          email: _this.email,
+          password: _this.password,
+          name: _this.name,
+          password_confirmation: _this.password_confirmation
+        }).then(function (res) {
+          console.log(res);
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -105,7 +135,106 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("Registration")])
+  return _c("div", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.name,
+          expression: "name",
+        },
+      ],
+      staticClass: "form-control",
+      attrs: { type: "name", placeholder: "name" },
+      domProps: { value: _vm.name },
+      on: {
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.name = $event.target.value
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.email,
+          expression: "email",
+        },
+      ],
+      staticClass: "form-control",
+      attrs: { type: "email", placeholder: "email" },
+      domProps: { value: _vm.email },
+      on: {
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.email = $event.target.value
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.password,
+          expression: "password",
+        },
+      ],
+      staticClass: "form-control",
+      attrs: { type: "password", placeholder: "password" },
+      domProps: { value: _vm.password },
+      on: {
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.password = $event.target.value
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.password_confirmation,
+          expression: "password_confirmation",
+        },
+      ],
+      staticClass: "form-control",
+      attrs: { type: "password", placeholder: "password_confirmation" },
+      domProps: { value: _vm.password_confirmation },
+      on: {
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.password_confirmation = $event.target.value
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("input", {
+      staticClass: "btn btn-primary",
+      attrs: { type: "submit", value: "register" },
+      on: {
+        click: function ($event) {
+          $event.preventDefault()
+          return _vm.register.apply(null, arguments)
+        },
+      },
+    }),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
